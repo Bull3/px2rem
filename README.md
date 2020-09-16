@@ -1,4 +1,4 @@
-### Get Start
+### Getting Started
 
 ```bash
 yarn 
