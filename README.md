@@ -5,7 +5,7 @@ yarn
 yarn test // then you can see the processed result in test.result.css
 ```
 
-# auto-px2rem-loader
+# [auto-px2rem-loader](https://www.npmjs.com/package/auto-px2rem-loader)
 
 >  **a [webpack](https://www.webpackjs.com/loaders/) loader to process css file which can convert `px` uint to `rem` and `media query` code**
 ## Before processing:
