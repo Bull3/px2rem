@@ -1,25 +1,26 @@
 .selector {
   width: 2rem;
-  height: 0.853333rem;
-  /*auto generate 3 new size, same effect as px comment */
+  margin-top: 10px;
   border: 1px solid #ddd;
-  /*no deal boeder px, same effect as no comment */
 }
 
 @media (max-width: 1280px) {
   .selector {
+    height: 32px;
     font-size: 14px;
   }
 }
 
 @media (min-width: 1281px) and (max-width: 1920px) {
   .selector {
+    height: 64px;
     font-size: 28px;
   }
 }
 
 @media (min-width: 1921px) {
   .selector {
+    height: 96px;
     font-size: 42px;
   }
 }

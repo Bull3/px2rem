@@ -1,6 +1,7 @@
 .selector {
   width: 150px;
-  height: 64px;
-  font-size: 28px; /*auto generate 3 new size, same effect as px comment */
-  border: 1px solid #ddd; /*no deal boeder px, same effect as no comment */
+  height: 64px; /*px*/
+  margin-top: 10px; /*no*/
+  font-size: 28px;
+  border: 1px solid #ddd;
 }

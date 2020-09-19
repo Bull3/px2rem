@@ -5,44 +5,56 @@ yarn
 yarn test // then you can see the processed result in test.result.css
 ```
 
-# [auto-px2rem-loader](https://www.npmjs.com/package/auto-px2rem-loader)
+# auto-px2rem-loader
 
-a [webpack](http://webpack.github.io/) loader for auto-px2rem
+>  **a [webpack](https://www.webpackjs.com/loaders/) loader to process css file which can convert `px` uint to `rem` and `media query` code**
+## Before processing:
 
-Fork [px2rem](https://www.npmjs.com/package/px2rem), add below config which can auto process `px` unit without `/*px*/` and `/*no*/` in  [px2rem](https://www.npmjs.com/package/px2rem)
+The raw stylesheet:
 
-## default config
+```css
+.selector {
+  width: 150px;
+  height: 64px; /*px*/
+  margin-top: 10px; /*no*/
+  font-size: 28px;
+  border: 1px solid #ddd;
+}
+```
 
-- remUnit: 75   //comments have highest priority
-- remPrecision: 6
-- forcePxComment: 'px'
-- forceRemComment: 'rem'
-- keepComment: 'no'
+## After processing:
 
-- autoDealPx: ['font-size']
+Rem and Media Query version: 
 
-- autoDealNo: ['border-radius', 'border', 'box-shadow', 'min-width', 'min-height', 'max-width', 'max-height']
+```css
+.selector {
+  width: 2rem;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+}
 
-- appendAutoDealPx: []  //you can add extra autoDealPx
+@media (max-width: 1280px) {
+  .selector {
+    height: 32px;
+    font-size: 14px;
+  }
+}
 
-- appendAutoDealNo: [] //you can add extra autoDealNo
+@media (min-width: 1281px) and (max-width: 1920px) {
+  .selector {
+    height: 64px;
+    font-size: 28px;
+  }
+}
 
-- ```js
-  mediaQuery: [ //default config
-      {
-        mediaType: '(max-width: 1280px)',
-        ratio: 0.5 //px sacle ratio
-      },
-      {
-        mediaType: '(min-width: 1281px) and (max-width: 1920px)',
-        ratio: 1
-      },
-      {
-        mediaType: '(min-width: 1921px)',
-        ratio: 1.5
-      }
-    ]
-  ```
+@media (min-width: 1921px) {
+  .selector {
+    height: 96px;
+    font-size: 42px;
+  }
+}
+```
+
 
 ## Install
 
@@ -64,60 +76,55 @@ module.exports = {
         loader: 'auto-px2rem-loader',
         // options here
         options: {
-          remUnit: 100,
-          remPrecision: 5
+          remUnit: 100
         }
       }]
     }]
   }
 }
 ```
+## All loader options
 
-### auto-px2rem processing result
+>  **There are all default configurations in the loader, you can also customize them in the webpack config file**
 
-#### Pre processing:
-
-One raw stylesheet: `test.css`
-
-```css
-.selector {
-  width: 150px;
-  height: 64px; /*px*/
-  font-size: 28px; /*auto generate 3 new size, same effect as px comment */
-  border: 1px solid #ddd; /*no deal boeder px, same effect as no comment */
-}
-```
-
-#### After processing:
-
-Rem version: `test.result.css`
-
-```css
-.selector {
-  width: 2rem;
-  /*auto generate 3 new size, same effect as px comment */
-  border: 1px solid #ddd;
-  /*no deal boeder px, same effect as no comment */
-}
-
-@media (max-width: 1280px) {
-  .selector {
-    height: 32px;
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 1281px) and (max-width: 1920px) {
-  .selector {
-    height: 64px;
-    font-size: 28px;
-  }
-}
-
-@media (min-width: 1921px) {
-  .selector {
-    height: 96px;
-    font-size: 42px;
+```js
+{
+  loader: 'auto-px2rem-loader',
+  options: {
+    remUnit: 75, // rem unit value (default: 75)
+    remPrecision: 6, // rem value precision (default: 6)
+    forcePxComment: 'px', // force px comment (default: `px`)
+    forceRemComment: 'rem', // force rem comment (default: `rem`)
+    keepComment: 'no', // no conversion comment (default: `no`)
+    // comment has higher priority than autodeal css properties
+    // these css properties will be converted into media query
+    autoDealPx: ['font-size'], 
+    // these css properties will not be converted
+    autoDealNo: [
+      'border-radius',
+      'border',
+      'box-shadow',
+      'min-width',
+      'min-height',
+      'max-width',
+      'max-height',
+    ],
+    appendAutoDealPx: [], // this will merge to autoDealPx
+    appendAutoDealNo: [], // this will merge to autoDealNo
+    mediaQuery: [// media query rules
+      {
+        mediaType: '(max-width: 1280px)', // media query width
+        ratio: 0.5, // conversion ratio
+      },
+      {
+        mediaType: '(min-width: 1281px) and (max-width: 1920px)',
+        ratio: 1,
+      },
+      {
+        mediaType: '(min-width: 1921px)',
+        ratio: 1.5,
+      }
+    ]
   }
 }
 ```
