@@ -1,13 +1,14 @@
 # Getting Started
 
 ```bash
-yarn 
+yarn
 yarn test // then you can see the processed result in test.result.css
 ```
 
-# [auto-px2rem-loader](https://www.npmjs.com/package/auto-px2rem-loader)
+# auto-px2rem-loader
 
->  **a [webpack](https://www.webpackjs.com/loaders/) loader to process css file which can convert `px` uint to `rem` and `media query` code**
+> **a [webpack](https://www.webpackjs.com/loaders/) loader to process css file which can convert `px` uint to `rem` and `media query` code**
+
 ## Before processing:
 
 The raw stylesheet:
@@ -19,18 +20,20 @@ The raw stylesheet:
   margin-top: 10px; /*no*/
   font-size: 28px;
   border: 1px solid #ddd;
+  border-right-width: 2px;
 }
 ```
 
 ## After processing:
 
-Rem and Media Query version: 
+Rem and Media Query version:
 
 ```css
 .selector {
   width: 2rem;
   margin-top: 10px;
   border: 1px solid #ddd;
+  border-right-width: 2px;
 }
 
 @media (max-width: 1280px) {
@@ -55,7 +58,6 @@ Rem and Media Query version:
 }
 ```
 
-
 ## Install
 
 `npm install auto-px2rem-loader`
@@ -66,26 +68,33 @@ Rem and Media Query version:
 module.exports = {
   // ...
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader'
-      }, {
-        loader: 'auto-px2rem-loader',
-        // options here
-        options: {
-          remUnit: 100
-        }
-      }]
-    }]
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'auto-px2rem-loader',
+            // options here
+            options: {
+              remUnit: 100
+            }
+          }
+        ]
+      }
+    ]
   }
-}
+};
 ```
+
 ## All loader options
 
->  **There are all default configurations in the loader, you can also customize them in the webpack config file**
+> **There are all default configurations in the loader, you can also customize them in the webpack config file**
 
 ```js
 {
@@ -97,20 +106,17 @@ module.exports = {
     forceRemComment: 'rem', // force rem comment (default: `rem`)
     keepComment: 'no', // no conversion comment (default: `no`)
     // comment has higher priority than autodeal css properties
-    // these css properties will be converted into media query
-    autoDealPx: ['font-size'], 
-    // these css properties will not be converted
+    // these css properties will be converted into media query, fauzzy matching
+    autoDealPx: ['font-size'],
+    // these css properties will not be converted, fauzzy matching
     autoDealNo: [
-      'border-radius',
       'border',
-      'box-shadow',
-      'min-width',
-      'min-height',
-      'max-width',
-      'max-height',
+      'shadow',
+      'min',
+      'max',
     ],
-    appendAutoDealPx: [], // this will merge to autoDealPx
-    appendAutoDealNo: [], // this will merge to autoDealNo
+    appendAutoDealPx: [], // this will merge to autoDealPx, fauzzy matching
+    appendAutoDealNo: [], // this will merge to autoDealNo, fauzzy matching
     mediaQuery: [// media query rules
       {
         mediaType: '(max-width: 1280px)', // media query width

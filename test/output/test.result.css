@@ -2,6 +2,7 @@
   width: 2rem;
   margin-top: 10px;
   border: 1px solid #ddd;
+  border-right-width: 2px;
 }
 
 @media (max-width: 1280px) {
